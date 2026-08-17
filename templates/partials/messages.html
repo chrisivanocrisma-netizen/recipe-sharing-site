@@ -1,0 +1,84 @@
+<div style="position: fixed; top: 20px; right: 20px; z-index: 9999; width: 300px;">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" style="margin-bottom: 10px; animation: slideInRight 0.5s ease;">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            {% if message.tags == 'success' %}
+            <span style="font-size: 20px;">✅</span>
+            {% elif message.tags == 'error' %}
+            <span style="font-size: 20px;">❌</span>
+            {% elif message.tags == 'warning' %}
+            <span style="font-size: 20px;">⚠️</span>
+            {% elif message.tags == 'info' %}
+            <span style="font-size: 20px;">ℹ️</span>
+            {% endif %}
+            <div>
+                <strong>{{ message.tags|title }}</strong>
+                <div style="font-size: 14px;">{{ message }}</div>
+            </div>
+            <button onclick="this.parentElement.parentElement.remove()" style="margin-left: auto; background: none; border: none; color: inherit; cursor: pointer; font-size: 20px;">
+                ×
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<style>
+    .alert {
+        padding: 15px;
+        border-radius: var(--radius);
+        background: white;
+        box-shadow: var(--shadow-hover);
+        border-left: 5px solid;
+    }
+    
+    .alert-success {
+        border-left-color: var(--success-color);
+        background: #E8F5E9;
+        color: var(--success-color);
+    }
+    
+    .alert-error {
+        border-left-color: var(--danger-color);
+        background: #FFEBEE;
+        color: var(--danger-color);
+    }
+    
+    .alert-warning {
+        border-left-color: var(--warning-color);
+        background: #FFF3E0;
+        color: var(--warning-color);
+    }
+    
+    .alert-info {
+        border-left-color: var(--info-color);
+        background: #E3F2FD;
+        color: var(--info-color);
+    }
+    
+    @keyframes slideInRight {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+</style>
+
+<script>
+    // Auto-remove messages after 5 seconds
+    document.addEventListener('DOMContentLoaded', function() {
+        setTimeout(function() {
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                alert.style.transition = 'all 0.5s ease';
+                alert.style.opacity = '0';
+                alert.style.transform = 'translateX(100%)';
+                setTimeout(() => alert.remove(), 500);
+            });
+        }, 5000);
+    });
+</script>

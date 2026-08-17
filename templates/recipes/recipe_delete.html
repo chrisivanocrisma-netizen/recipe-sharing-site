@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Recipe - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div style="max-width: 500px; margin: 100px auto; text-align: center;">
+    <div style="background: white; padding: 40px; border-radius: var(--radius); box-shadow: var(--shadow);">
+        <div style="font-size: 48px; margin-bottom: 20px;">🗑️</div>
+        <h1 style="margin-bottom: 10px;">Delete Recipe</h1>
+        <p style="color: var(--text-light); margin-bottom: 30px;">
+            Are you sure you want to delete <strong>"{{ recipe.title }}"</strong>?<br>
+            This action cannot be undone.
+        </p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <a href="{% url 'recipe_detail' recipe.pk %}" 
+                   style="padding: 12px 30px; background: var(--bg-light); color: var(--text-dark); border-radius: var(--radius); text-decoration: none;">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        style="padding: 12px 30px; background: var(--danger-color); color: white; border: none; border-radius: var(--radius); cursor: pointer;">
+                    Delete Recipe
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 80px auto; padding: 40px; background: white; border-radius: var(--radius); box-shadow: var(--shadow);">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="font-size: 28px; color: var(--text-dark); margin-bottom: 10px;">Welcome Back 👋</h1>
+        <p style="color: var(--text-light);">Login to your account</p>
+    </div>
+    
+    {% if form.errors %}
+    <div style="background: #FFEBEE; color: var(--danger-color); padding: 12px; border-radius: var(--radius); margin-bottom: 20px; border-left: 4px solid var(--danger-color);">
+        Invalid username or password. Please try again.
+    </div>
+    {% endif %}
+    
+    <form method="POST" id="loginForm">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Username</label>
+            <input type="text" name="username" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" required>
+        </div>
+        
+        <div style="margin-bottom: 20px; position: relative;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Password</label>
+            <div style="position: relative;">
+                <input type="password" name="password" id="passwordInput" 
+                       style="width: 100%; padding: 12px 45px 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" 
+                       required>
+                <button type="button" id="togglePassword" 
+                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 18px; color: var(--text-light); padding: 5px;">
+                    👁️
+                </button>
+            </div>
+        </div>
+        
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="checkbox" name="remember" style="width: 16px; height: 16px;">
+                <span style="color: var(--text-light); font-size: 14px;">Remember me</span>
+            </label>
+            
+            <a href="#" style="color: var(--primary-color); font-size: 14px; text-decoration: none;">Forgot password?</a>
+        </div>
+        
+        <button type="submit" style="width: 100%; padding: 14px; background: var(--gradient-primary); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer; margin-bottom: 20px;">
+            Login
+        </button>
+    </form>
+    
+    <div style="text-align: center; color: var(--text-light); margin-top: 25px;">
+        Don't have an account? 
+        <a href="{% url 'register' %}" style="color: var(--primary-color); font-weight: 600;">Create account</a>
+    </div>
+    
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('passwordInput');
+    
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener('click', function() {
+            // Toggle password visibility
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            
+            // Toggle eye icon
+            toggleBtn.textContent = type === 'password' ? '👁️' : '🙈';
+            toggleBtn.title = type === 'password' ? 'Show password' : 'Hide password';
+            
+            // Add focus to password field
+            passwordInput.focus();
+        });
+        
+        // Add hover effect
+        toggleBtn.addEventListener('mouseenter', function() {
+            this.style.color = 'var(--primary-color)';
+            this.style.transform = 'translateY(-50%) scale(1.1)';
+        });
+        
+        toggleBtn.addEventListener('mouseleave', function() {
+            this.style.color = 'var(--text-light)';
+            this.style.transform = 'translateY(-50%) scale(1)';
+        });
+    }
+    
+    // Form validation
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            const password = passwordInput.value;
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                e.preventDefault();
+            }
+        });
+    }
+});
+</script>
+
+<style>
+    #togglePassword {
+        transition: all 0.2s ease;
+    }
+    
+    #togglePassword:hover {
+        transform: translateY(-50%) scale(1.1);
+    }
+    
+    #passwordInput:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    }
+    
+    /* Add eye icon animation */
+    @keyframes eyeBlink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    #togglePassword:active {
+        animation: eyeBlink 0.3s ease;
+    }
+</style>
+{% endblock %}

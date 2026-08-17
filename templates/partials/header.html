@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Recipe Sharing - Cook & Share Delicious Recipes{% endblock %}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome Icons (using emoji instead for simplicity) -->
+    <!-- No external CSS needed - we use emojis -->
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/npm/emoji-datasource-apple/img/apple/64/1f373.png">
+    
+    <!-- Meta Tags for SEO -->
+    <meta name="description" content="Share, discover, and cook amazing recipes with our community of food lovers. Join RecipeShare today!">
+    <meta name="keywords" content="recipes, cooking, food, chefs, sharing, community">
+    <meta name="author" content="RecipeShare Team">
+    
+    <!-- Open Graph Tags for Social Media -->
+    <meta property="og:title" content="Recipe Sharing - Cook & Share Delicious Recipes">
+    <meta property="og:description" content="Join our community of food lovers sharing amazing recipes">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:url" content="https://recipeshare.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Recipe Sharing - Cook & Share Delicious Recipes">
+    <meta name="twitter:description" content="Join our community of food lovers sharing amazing recipes">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80">
+    
+    <!-- Additional Styles -->
+    <style>
+        /* Additional base styles */
+        * {
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Print styles */
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+            
+            .print-only {
+                display: block !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+        }
+        
+        /* Loading animation */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Selection color */
+        ::selection {
+            background: var(--primary-light);
+            color: var(--text-dark);
+        }
+        
+        /* Focus styles for accessibility */
+        :focus {
+            outline: 2px solid var(--primary-color);
+            outline-offset: 2px;
+        }
+        
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip .tooltip-text {
+            visibility: hidden;
+            width: 200px;
+            background: var(--text-dark);
+            color: white;
+            text-align: center;
+            padding: 5px;
+            border-radius: var(--radius);
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
+        
+        /* Back to top button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            z-index: 100;
+            display: none;
+        }
+        
+        .back-to-top:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* Toast notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 9999;
+            transform: translateX(150%);
+            transition: transform 0.3s ease;
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        /* Responsive tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background: var(--bg-light);
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+        
+        tr:hover {
+            background: var(--bg-light);
+        }
+    </style>
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Back to top button -->
+    <div class="back-to-top" onclick="scrollToTop()">
+        ↑
+    </div>
+    
+    <!-- Toast container -->
+    <div id="toastContainer"></div>
+    
+    <!-- Modals container -->
+    <div id="modalContainer"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            {% include 'partials/navbar.html' %}
+        </div>
+    </header>
+
+    <!-- Messages -->
+    {% if messages %}
+        {% include 'partials/messages.html' %}
+    {% endif %}
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            {% include 'partials/footer.html' %}
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Base JavaScript functionality
+        
+        // Show/hide back to top button
+        window.addEventListener('scroll', function() {
+            const backToTop = document.querySelector('.back-to-top');
+            if (window.pageYOffset > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        });
+        
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+        
+        // Toast notification function
+        function showToast(message, type = 'info', duration = 5000) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            
+            const icons = {
+                'success': '✅',
+                'error': '❌',
+                'warning': '⚠️',
+                'info': 'ℹ️'
+            };
+            
+            toast.innerHTML = `
+                <span style="font-size: 20px;">${icons[type] || icons.info}</span>
+                <div style="flex: 1;">${message}</div>
+                <button onclick="this.parentElement.remove()" style="background: none; border: none; cursor: pointer; font-size: 20px;">
+                    ×
+                </button>
+            `;
+            
+            // Apply styles
+            toast.style.background = type === 'success' ? '#E8F5E9' :
+                                   type === 'error' ? '#FFEBEE' :
+                                   type === 'warning' ? '#FFF3E0' : '#E3F2FD';
+            toast.style.color = type === 'success' ? 'var(--success-color)' :
+                              type === 'error' ? 'var(--danger-color)' :
+                              type === 'warning' ? 'var(--warning-color)' : 'var(--info-color)';
+            toast.style.borderLeft = `5px solid ${type === 'success' ? 'var(--success-color)' :
+                                    type === 'error' ? 'var(--danger-color)' :
+                                    type === 'warning' ? 'var(--warning-color)' : 'var(--info-color)'}`;
+            
+            container.appendChild(toast);
+            
+            // Show toast
+            setTimeout(() => {
+                toast.classList.add('show');
+            }, 10);
+            
+            // Auto-remove after duration
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.remove();
+                    }
+                }, 300);
+            }, duration);
+        }
+        
+        // Modal functions
+        function showModal(title, content) {
+            const container = document.getElementById('modalContainer');
+            const modal = document.createElement('div');
+            modal.className = 'modal';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    <button class="modal-close" onclick="closeModal(this)">×</button>
+                    <h2 style="margin-bottom: 20px;">${title}</h2>
+                    <div>${content}</div>
+                </div>
+            `;
+            
+            container.appendChild(modal);
+            modal.style.display = 'flex';
+            
+            // Close on background click
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    closeModal(modal.querySelector('.modal-close'));
+                }
+            });
+        }
+        
+        function closeModal(closeBtn) {
+            const modal = closeBtn.closest('.modal');
+            modal.style.display = 'none';
+            setTimeout(() => {
+                if (modal.parentNode) {
+                    modal.remove();
+                }
+            }, 300);
+        }
+        
+        // Form data persistence
+        document.addEventListener('DOMContentLoaded', function() {
+            // Save form data on input change
+            document.querySelectorAll('form input, form textarea, form select').forEach(input => {
+                const formId = input.closest('form').id || 'defaultForm';
+                const inputId = `${formId}_${input.name || input.id}`;
+                
+                // Load saved data
+                const savedData = localStorage.getItem(inputId);
+                if (savedData && !input.value) {
+                    input.value = savedData;
+                }
+                
+                // Save on input
+                input.addEventListener('input', function() {
+                    localStorage.setItem(inputId, this.value);
+                });
+            });
+            
+            // Clear form data on successful submit
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function() {
+                    const formId = this.id || 'defaultForm';
+                    Object.keys(localStorage).forEach(key => {
+                        if (key.startsWith(formId + '_')) {
+                            localStorage.removeItem(key);
+                        }
+                    });
+                });
+            });
+        });
+        
+        // Debounce function for search
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('Copied to clipboard!', 'success');
+            }).catch(() => {
+                showToast('Failed to copy', 'error');
+            });
+        }
+        
+        // Format date
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+        }
+        
+        // Format time
+        function formatTime(minutes) {
+            if (minutes < 60) {
+                return `${minutes} min`;
+            }
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
+        }
+        
+        // URL parameter helper
+        function getUrlParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+        
+        // Update URL parameter without reload
+        function updateUrlParam(key, value) {
+            const url = new URL(window.location);
+            url.searchParams.set(key, value);
+            window.history.pushState({}, '', url);
+        }
+    </script>
+    
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

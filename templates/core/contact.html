@@ -1,0 +1,749 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div class="contact-maximized">
+    <!-- Full-width header with ACTUAL food picture -->
+    <div class="contact-hero">
+        <div class="hero-content">
+            <h1>Get in Touch</h1>
+            <p class="hero-subtitle">We're always hungry for your feedback and recipe ideas</p>
+            <div class="food-icons">
+                <span style="--i:0">🍳</span>
+                <span style="--i:1">🥘</span>
+                <span style="--i:2">🍜</span>
+                <span style="--i:3">🍲</span>
+                <span style="--i:4">🥗</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content - Maximized Grid -->
+    <div class="contact-grid">
+        <!-- Left: Contact Info -->
+        <div class="contact-info-panel">
+            <div class="panel-header">
+                <h2><span class="icon">📞</span> Direct Lines</h2>
+                <p class="panel-sub">Quickest ways to reach our kitchen team</p>
+            </div>
+            
+            <div class="contact-methods">
+                <div class="method-card primary">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <div class="method-details">
+                        <h3>Recipe Inquiries</h3>
+                        <p class="contact-value">recipes@foodshare.ph</p>
+                        <p class="contact-note">For recipe submissions and food questions</p>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                        </svg>
+                    </div>
+                    <div class="method-details">
+                        <h3>Hotline</h3>
+                        <p class="contact-value">(02) 8123-4567</p>
+                        <p class="contact-note">Mon-Fri, 8AM-8PM | Sat, 9AM-5PM</p>
+                    </div>
+                </div>
+
+                <div class="method-card">
+                    <div class="method-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                            <circle cx="12" cy="10" r="3"/>
+                        </svg>
+                    </div>
+                  <div class="method-details">
+    <h3>Visit Our Kitchen</h3>
+    <p class="contact-value">5th Floor, The Food Lab Building</p>
+    <p class="contact-value">Maginhawa Street, Teachers Village</p>
+    <p class="contact-value">Quezon City, Metro Manila</p>
+    <p class="contact-note">Open for cooking workshops - Book in advance</p>
+</div>
+                </div>
+            </div>
+
+            <!-- Updated Social Media Section -->
+            <div class="social-connect">
+                <h3><span class="icon">🌐</span> Connect With Us</h3>
+                <div class="social-icons-compact">
+                    <a href="#" class="social-icon-item fb">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                        </svg>
+                        <span class="social-name">Facebook</span>
+                        <small>@FoodSharePH</small>
+                    </a>
+                    
+                    <a href="#" class="social-icon-item ig">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                        <span class="social-name">Instagram</span>
+                        <small>@FoodShareRecipes</small>
+                    </a>
+                    
+                    <a href="#" class="social-icon-item yt">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                        </svg>
+                        <span class="social-name">YouTube</span>
+                        <small>Cooking Tutorials</small>
+                    </a>
+                    
+                    <a href="#" class="social-icon-item tt">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                        </svg>
+                        <span class="social-name">TikTok</span>
+                        <small>Quick Recipes</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Team & FAQ -->
+        <div class="team-faq-panel">
+            <!-- Team Section -->
+            <div class="team-section">
+                <div class="section-header">
+                    <h2><span class="icon">👨‍🍳</span> Our Kitchen Team</h2>
+                </div>
+                
+                <div class="chef-grid">
+                    <div class="chef-card">
+                        <div class="chef-avatar" style="background: linear-gradient(135deg, #ff9a9e, #fad0c4);">
+                            <span>LL</span>
+                        </div>
+                        <div class="chef-info">
+                            <h4>Chef Lenly</h4>
+                            <p class="chef-role">Filipino Cuisine</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chef-card">
+                        <div class="chef-avatar" style="background: linear-gradient(135deg, #a1c4fd, #c2e9fb);">
+                            <span>JP</span>
+                        </div>
+                        <div class="chef-info">
+                            <h4>Chef Jaypee</h4>
+                            <p class="chef-role">Baking Specialist</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chef-card">
+                        <div class="chef-avatar" style="background: linear-gradient(135deg, #ffecd2, #fcb69f);">
+                            <span>JR</span>
+                        </div>
+                        <div class="chef-info">
+                            <h4>Chef Junrex</h4>
+                            <p class="chef-role">Nutrition Advisor</p>
+                        </div>
+                    </div>
+                    
+                    <div class="chef-card">
+                        <div class="chef-avatar" style="background: linear-gradient(135deg, #84fab0, #8fd3f4);">
+                            <span>JM</span>
+                        </div>
+                        <div class="chef-info">
+                            <h4>Chef Joshua</h4>
+                            <p class="chef-role">Video Creator</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="faq-section">
+                <div class="section-header">
+                    <h2><span class="icon">❓</span> Quick FAQs</h2>
+                     <p class="section-sub">Common questions answered</p>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            <span class="faq-icon">📤</span>
+                            <h4>How to submit a recipe?</h4>
+                        </div>
+                        <p class="faq-a">Email recipes@foodshare.ph with ingredients and instructions.</p>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            <span class="faq-icon">⏱️</span>
+                            <h4>Approval time?</h4>
+                        </div>
+                        <p class="faq-a">3-5 business days. We test each recipe!</p>
+                    </div>
+                    
+                    
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            <span class="faq-icon">🤝</span>
+                            <h4>Partnerships?</h4>
+                        </div>
+                        <p class="faq-a">Email partnerships@foodshare.ph with your proposal.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary: #e63946;
+        --secondary: #a8dadc;
+        --accent: #ffb347;
+        --dark: #1d3557;
+        --light: #f1faee;
+        --gray: #6c757d;
+        --radius: 8px;
+        --shadow: 0 3px 10px rgba(0,0,0,0.05);
+        --shadow-lg: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        background: #f9f9f9;
+        color: #333;
+    }
+
+    /* MAIN WRAPPER */
+    .contact-maximized {
+        width: 100%;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* HERO SECTION - COMPACT */
+    .contact-hero {
+        width: 100%;
+        height: 220px;
+        background: 
+            linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)),
+            url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1600&q=80');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 20px;
+        position: relative;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 800px;
+    }
+
+    .hero-content h1 {
+        font-size: 2.2rem;
+        color: white;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    }
+
+    .hero-subtitle {
+        font-size: 0.95rem;
+        color: rgba(255,255,255,0.95);
+        max-width: 500px;
+        margin: 0 auto 15px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    }
+
+    .food-icons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 15px;
+    }
+
+    .food-icons span {
+        font-size: 1.8rem;
+        animation: float 3s ease-in-out infinite;
+        animation-delay: calc(var(--i) * 0.2s);
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+
+    /* MAIN GRID LAYOUT - COMPACT */
+    .contact-grid {
+        max-width: 1400px;
+        margin: 20px auto 0;
+        padding: 0 15px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+    }
+
+    /* LEFT PANEL - COMPACT */
+    .contact-info-panel {
+        background: white;
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: var(--shadow-lg);
+        height: fit-content;
+    }
+
+    .panel-header {
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 2px solid var(--accent);
+    }
+
+    .panel-header h2 {
+        font-size: 1.4rem;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    .panel-sub {
+        color: var(--gray);
+        font-size: 0.85rem;
+    }
+
+    /* CONTACT METHODS - MORE COMPACT */
+    .contact-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+
+    .method-card {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 16px;
+        border-radius: var(--radius);
+        background: var(--light);
+        transition: all 0.2s ease;
+        border: 1px solid #eaeaea;
+    }
+
+    .method-card.primary {
+        background: linear-gradient(135deg, rgba(230, 57, 70, 0.05), rgba(255, 179, 71, 0.05));
+        border-color: rgba(230, 57, 70, 0.15);
+    }
+
+    .method-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+        border-color: var(--secondary);
+    }
+
+    .method-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .method-icon svg {
+        width: 20px;
+        height: 20px;
+        color: white;
+    }
+
+    .method-details h3 {
+        font-size: 1.1rem;
+        color: var(--dark);
+        margin-bottom: 5px;
+    }
+
+    .contact-value {
+        font-size: 0.9rem;
+        color: var(--dark);
+        font-weight: 600;
+        margin-bottom: 3px;
+    }
+
+    .contact-note {
+        font-size: 0.75rem;
+        color: var(--gray);
+        margin-top: 5px;
+    }
+
+    /* SOCIAL CONNECT - COMPACT */
+    .social-connect {
+        margin-top: 25px;
+    }
+
+    .social-connect h3 {
+        font-size: 1.2rem;
+        color: var(--dark);
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .social-icons-compact {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .social-icon-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px;
+        border-radius: var(--radius);
+        text-decoration: none;
+        transition: all 0.2s ease;
+        border: 1px solid #eee;
+        background: #fafafa;
+    }
+
+    .social-icon-item:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+    }
+
+    .social-icon-item.fb { 
+        background: rgba(59, 89, 152, 0.03); 
+        color: #3b5998; 
+        border-color: rgba(59, 89, 152, 0.15);
+    }
+    .social-icon-item.ig { 
+        background: rgba(225, 48, 108, 0.03); 
+        color: #e1306c; 
+        border-color: rgba(225, 48, 108, 0.15);
+    }
+    .social-icon-item.yt { 
+        background: rgba(255, 0, 0, 0.03); 
+        color: #ff0000; 
+        border-color: rgba(255, 0, 0, 0.15);
+    }
+    .social-icon-item.tt { 
+        background: rgba(0, 0, 0, 0.03); 
+        color: #000; 
+        border-color: rgba(0, 0, 0, 0.15);
+    }
+
+    .social-icon-item svg {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+    }
+
+    .social-name {
+        font-weight: 600;
+        font-size: 0.85rem;
+        flex-grow: 1;
+    }
+
+    .social-icon-item small {
+        font-size: 0.7rem;
+        opacity: 0.7;
+        text-align: right;
+    }
+
+    /* RIGHT PANEL - TEAM & FAQ */
+    .team-faq-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 25px;
+    }
+
+    /* TEAM SECTION - COMPACT */
+    .team-section {
+        background: white;
+        border-radius: var(--radius);
+        padding: 25px;
+        box-shadow: var(--shadow-lg);
+    }
+
+    .section-header {
+        margin-bottom: 20px;
+    }
+
+    .section-header h2 {
+        font-size: 1.4rem;
+        color: var(--dark);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 3px;
+    }
+
+    /* CHEF GRID - COMPACT */
+    .chef-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .chef-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 15px;
+        background: #fafafa;
+        border-radius: var(--radius);
+        transition: all 0.2s ease;
+        border: 1px solid #eee;
+    }
+
+    .chef-card:hover {
+        transform: translateY(-3px);
+        box-shadow: var(--shadow);
+        background: white;
+        border-color: var(--secondary);
+    }
+
+    .chef-avatar {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        font-weight: bold;
+        color: white;
+        flex-shrink: 0;
+    }
+
+    .chef-info h4 {
+        font-size: 1rem;
+        color: var(--dark);
+        margin-bottom: 3px;
+    }
+
+    .chef-role {
+        color: var(--primary);
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+
+    /* FAQ SECTION - WIDER & COMPACT */
+    .faq-section {
+        background: rgb(204, 252, 217);
+        border-radius: var(--radius);
+        padding: 39px 35px;
+        box-shadow: var(--shadow-lg);
+        margin: 0 -10px;
+    }
+
+    .faq-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .faq-item {
+        padding: 12px;
+        background: #fafafa;
+        border-radius: var(--radius);
+        border: 1px solid #eee;
+        transition: all 0.2s ease;
+    }
+
+    .faq-item:hover {
+        border-color: var(--secondary);
+        background: white;
+    }
+
+    .faq-q {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .faq-icon {
+        font-size: 1.1rem;
+        flex-shrink: 0;
+    }
+
+    .faq-q h4 {
+        font-size: 0.95rem;
+        color: var(--dark);
+        font-weight: 600;
+    }
+
+    .faq-a {
+        font-size: 0.85rem;
+        color: var(--gray);
+        line-height: 1.4;
+        padding-left: 26px;
+    }
+
+    /* RESPONSIVE DESIGN */
+    @media (max-width: 1024px) {
+        .contact-grid {
+            grid-template-columns: 1fr;
+            max-width: 700px;
+            gap: 20px;
+        }
+        
+        .hero-content h1 {
+            font-size: 1.8rem;
+        }
+        
+        .contact-hero {
+            height: 180px;
+        }
+        
+        .faq-section {
+            margin: 0;
+            padding: 25px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .hero-content h1 {
+            font-size: 1.6rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 0.85rem;
+        }
+        
+        .contact-hero {
+            height: 160px;
+            padding: 15px;
+        }
+        
+        .contact-info-panel,
+        .team-section,
+        .faq-section {
+            padding: 20px;
+        }
+        
+        .chef-grid,
+        .social-icons-compact {
+            grid-template-columns: 1fr;
+        }
+        
+        .food-icons span {
+            font-size: 1.5rem;
+        }
+        
+        .contact-grid {
+            padding: 0 10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .contact-hero {
+            height: 140px;
+        }
+        
+        .hero-content h1 {
+            font-size: 1.4rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .food-icons {
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .food-icons span {
+            font-size: 1.2rem;
+        }
+        
+        .panel-header h2,
+        .section-header h2,
+        .social-connect h3 {
+            font-size: 1.2rem;
+        }
+        
+        .method-card,
+        .chef-card,
+        .social-icon-item,
+        .faq-item {
+            padding: 12px;
+        }
+        
+        .method-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .method-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .chef-avatar {
+            width: 45px;
+            height: 45px;
+            font-size: 0.9rem;
+        }
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Simple hover effects
+        const interactiveElements = document.querySelectorAll('.method-card, .social-icon-item, .chef-card, .faq-item');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px)';
+            });
+            
+            el.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+        
+        // Hero text animation
+        const heroTitle = document.querySelector('.hero-content h1');
+        const heroSubtitle = document.querySelector('.hero-subtitle');
+        
+        heroTitle.style.opacity = '0';
+        heroTitle.style.transform = 'translateY(10px)';
+        heroSubtitle.style.opacity = '0';
+        heroSubtitle.style.transform = 'translateY(10px)';
+        
+        setTimeout(() => {
+            heroTitle.style.transition = 'all 0.6s ease';
+            heroSubtitle.style.transition = 'all 0.6s ease 0.2s';
+            heroTitle.style.opacity = '1';
+            heroTitle.style.transform = 'translateY(0)';
+            heroSubtitle.style.opacity = '1';
+            heroSubtitle.style.transform = 'translateY(0)';
+        }, 200);
+    });
+</script>
+{% endblock %}

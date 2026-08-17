@@ -1,0 +1,674 @@
+{% extends 'base.html' %}
+
+{% block title %}Recipe Sharing - Home{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero-section {
+        background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 80px 0;
+        text-align: center;
+        border-radius: 0 0 var(--radius) var(--radius);
+        margin-bottom: 40px;
+    }
+
+    .hero-title {
+        font-size: 36px;
+        font-weight: 800;
+        margin-bottom: 20px;
+    }
+
+    .hero-subtitle {
+        font-size: 18px;
+        margin-bottom: 30px;
+        opacity: 0.9;
+    }
+
+    .hero-buttons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .stats-section {
+        background: var(--gradient-primary);
+        color: white;
+        padding: 40px 0;
+        border-radius: var(--radius);
+        margin-bottom: 40px;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 14px;
+        opacity: 0.9;
+        text-transform: uppercase;
+    }
+
+    .featured-section {
+        margin-bottom: 40px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .section-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--text-dark);
+    }
+
+    .recipe-card {
+        background: white;
+        border-radius: var(--radius);
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        height: 100%;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .recipe-image {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+    }
+
+    .recipe-content {
+        padding: 15px;
+    }
+
+    .recipe-title {
+        font-size: 18px;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--text-dark);
+    }
+
+    .recipe-meta {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 10px;
+        font-size: 12px;
+        color: var(--text-light);
+    }
+
+    .recipe-description {
+        color: var(--text-light);
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+
+    .recipe-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px;
+        border-top: 1px solid var(--border-color);
+    }
+
+    .recipe-author {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .author-avatar {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .author-name {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .recipe-rating {
+        display: flex;
+        align-items: center;
+        gap: 3px;
+    }
+
+    .stars {
+        color: #FFC107;
+        font-size: 14px;
+    }
+
+    .rating-value {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .categories-section {
+        background: var(--bg-white);
+        padding: 40px 0;
+        border-radius: var(--radius);
+        margin-bottom: 40px;
+    }
+
+    .categories-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .category-card {
+        background: white;
+        border-radius: var(--radius);
+        padding: 20px 15px;
+        text-align: center;
+        cursor: pointer;
+        border: 2px solid transparent;
+    }
+
+    .category-card:hover {
+        border-color: var(--primary-color);
+    }
+
+    .category-icon {
+        font-size: 24px;
+        margin-bottom: 10px;
+        color: var(--primary-color);
+    }
+
+    .category-name {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .category-count {
+        font-size: 12px;
+        color: var(--text-light);
+    }
+
+    .search-section {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px 0;
+        border-radius: var(--radius);
+        margin-bottom: 40px;
+        text-align: center;
+        color: white;
+    }
+
+    .search-box {
+        max-width: 500px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 15px 50px 15px 20px;
+        border: none;
+        border-radius: 50px;
+        font-size: 16px;
+    }
+
+    .search-button {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: var(--primary-color);
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .cta-section {
+        text-align: center;
+        padding: 40px 0;
+    }
+
+    .cta-title {
+        font-size: 24px;
+        font-weight: 800;
+        margin-bottom: 15px;
+    }
+
+    .cta-subtitle {
+        font-size: 16px;
+        color: var(--text-light);
+        margin-bottom: 30px;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .categories-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-title {
+            font-size: 28px;
+        }
+        .section-header {
+            flex-direction: column;
+            gap: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .stats-grid, .categories-grid {
+            grid-template-columns: 1fr;
+        }
+        .hero-buttons {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <h1 class="hero-title">Share, Cook & Enjoy Recipes</h1>
+            <p class="hero-subtitle">Join our community of food lovers. Discover and share amazing recipes.</p>
+            <div class="hero-buttons">
+                <a href="{% url 'recipe_list' %}" class="btn btn-primary">Browse Recipes</a>
+                {% if not user.is_authenticated %}
+                <a href="{% url 'register' %}" class="btn btn-secondary">Join Free</a>
+                {% else %}
+                <a href="{% url 'recipe_create' %}" class="btn btn-secondary">Share Recipe</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <div class="stat-number">🥘</div>
+                <div class="stat-label">Recipes</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">👨‍🍳</div>
+                <div class="stat-label">Chefs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">🍽️</div>
+                <div class="stat-label">Reviews</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">🔥</div>
+                <div class="stat-label">Active</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Recipes -->
+<section class="featured-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Featured Recipes</h2>
+            <a href="{% url 'recipe_list' %}" class="btn btn-outline">View All →</a>
+        </div>
+        
+        <div class="grid grid-4">
+            <!-- Recipe 1 -->
+           <div class="recipe-card">
+    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="All-American Bacon Cheeseburger" class="recipe-image">
+    <div class="recipe-content">
+        <h3 class="recipe-title">Bacon Cheeseburger</h3>
+        <div class="recipe-meta">
+            <span>⏱️ 25 mins</span>
+            <span>👤 4 burgers</span>
+            <span class="badge badge-primary">Filipino</span>
+        </div>
+        <p class="recipe-description">Juicy classic burger</p>
+        <div class="recipe-footer">
+            <div class="recipe-author">
+                <img src="https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Chef Mike" class="author-avatar">
+                <span class="author-name">Chef Ailyn</span>
+            </div>
+            <div class="recipe-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.9</span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Recipe 2 -->
+          <div class="recipe-card">
+    <img src="https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Australian Meat Pie" class="recipe-image">
+    <div class="recipe-content">
+        <h3 class="recipe-title">Classic Aussie Meat Pie</h3>
+        <div class="recipe-meta">
+            <span>⏱️ 45 mins</span>
+            <span>👤 4 servings</span>
+             <span class="badge badge-primary">Filipino</span>
+        </div>
+        <p class="recipe-description">Savory minced beef pie.</p>
+        <div class="recipe-footer">
+            <div class="recipe-author">
+                <img src="https://images.unsplash.com/photo-1552374196-c4e7ffc6e126?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Chef Bruce" class="author-avatar">
+                <span class="author-name">Chef Junrex</span>
+            </div>
+            <div class="recipe-rating">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-value">4.6</span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Recipe 3 -->
+        <div class="recipe-card">
+    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Recipe" class="recipe-image">
+    <div class="recipe-content">
+        <h3 class="recipe-title">Margherita Pizza</h3>
+        <div class="recipe-meta">
+            <span>⏱️ 45 mins</span>
+            <span>👤 3 servings</span>
+            <span class="badge badge-primary">Italian</span>
+        </div>
+        <p class="recipe-description">Authentic Italian pizza.</p>
+        <div class="recipe-footer">
+            <div class="recipe-author">
+                <img src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Chef Lenly" class="author-avatar">
+                <span class="author-name">Chef Lenly</span>
+            </div>
+            <div class="recipe-rating">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.9</span>
+            </div>
+        </div>
+    </div>
+</div>
+            
+            <!-- Recipe 4 -->
+            <div class="recipe-card">
+    <img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80" alt="Recipe" class="recipe-image">
+    <div class="recipe-content">
+        <h3 class="recipe-title">Strawberry Cake</h3>
+        <div class="recipe-meta">
+            <span>⏱️ 20 mins</span>
+            <span>👤 4 servings</span>
+            <span class="badge badge-success">French</span>
+        </div>
+        <p class="recipe-description">Decadent Strawberry cake.</p>
+        <div class="recipe-footer">
+            <div class="recipe-author">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=100&q=80" alt="Chef Jaypee" class="author-avatar">
+                <span class="author-name">Chef Jaypee</span>
+            </div>
+            <div class="recipe-rating">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-value">4.7</span>
+            </div>
+        </div>
+    </div>
+</div>
+        </div>
+    </div>
+</section>
+
+<!-- Search Section -->
+<section class="search-section">
+    <div class="container">
+        <h2 style="color: white; margin-bottom: 15px;">Find Your Recipe</h2>
+        <p style="color: rgba(255,255,255,0.9); margin-bottom: 20px;">
+            Search recipes by ingredients or cooking time
+        </p>
+        <div class="search-box">
+            <form action="{% url 'recipe_list' %}" method="GET">
+                <input type="text" name="q" placeholder="Search recipes..." class="search-input">
+                <button type="submit" class="search-button">🔍</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Categories Section -->
+<section class="categories-section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Explore Categories</h2>
+            <p class="section-subtitle">Find recipes by meal type</p>
+        </div>
+        
+        <div class="categories-grid">
+            <a href="{% url 'recipe_list' %}?category=breakfast" class="category-card">
+                <div class="category-icon">🍳</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Breakfast</h3>
+              
+                <div class="category-hover">Start your day </div>
+            </a>
+            
+            <a href="{% url 'recipe_list' %}?category=lunch" class="category-card">
+                <div class="category-icon">🥪</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Lunch</h3>
+               
+                <div class="category-hover">Midday delight </div>
+            </a>
+            
+            <a href="{% url 'recipe_list' %}?category=dinner" class="category-card">
+                <div class="category-icon">🍽️</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Dinner</h3>
+               
+                <div class="category-hover">Evening feast </div>
+            </a>
+            
+            <a href="{% url 'recipe_list' %}?category=dessert" class="category-card">
+                <div class="category-icon">🍰</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Dessert</h3>
+                
+                <div class="category-hover">Sweet treats </div>
+            </a>
+            
+            <a href="{% url 'recipe_list' %}?category=snack" class="category-card">
+                <div class="category-icon">🍿</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Snacks</h3>
+            
+                <div class="category-hover">Quick bites </div>
+            </a>
+            
+            <a href="{% url 'recipe_list' %}?category=drink" class="category-card">
+                <div class="category-icon">🥤</div>
+                <div class="category-pulse"></div>
+                <h3 class="category-name">Drinks</h3>
+               
+                <div class="category-hover">Refresh yourself </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<style>
+    /* Add these styles to your existing CSS */
+    .section-subtitle {
+        color: var(--text-light);
+        font-size: 16px;
+        margin-top: 5px;
+    }
+    
+    .category-card {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: 2px solid #e9ecef;
+        padding: 25px 15px;
+    }
+    
+    .category-card:hover {
+        border-color: var(--primary-color);
+        transform: translateY(-8px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #ffffff 0%, #f5f7ff 100%);
+    }
+    
+    .category-icon {
+        font-size: 32px;
+        margin-bottom: 15px;
+        color: var(--primary-color);
+        display: inline-block;
+        transition: transform 0.3s ease;
+    }
+    
+    .category-card:hover .category-icon {
+        transform: scale(1.2) rotate(5deg);
+    }
+    
+    .category-name {
+        font-size: 16px;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-dark);
+        transition: color 0.3s ease;
+    }
+    
+    .category-card:hover .category-name {
+        color: var(--primary-color);
+    }
+    
+    .category-count {
+        font-size: 13px;
+        color: #6c757d;
+        font-weight: 500;
+        padding: 4px 12px;
+        background: #f1f3f5;
+        border-radius: 20px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .category-card:hover .category-count {
+        background: var(--primary-color);
+        color: white;
+        transform: scale(1.05);
+    }
+    
+    .category-hover {
+        position: absolute;
+        bottom: -40px;
+        left: 0;
+        right: 0;
+        background: var(--primary-color);
+        color: white;
+        padding: 10px;
+        font-size: 12px;
+        font-weight: 600;
+        text-align: center;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        border-radius: 0 0 var(--radius) var(--radius);
+    }
+    
+    .category-card:hover .category-hover {
+        opacity: 1;
+        transform: translateY(0);
+        bottom: 0;
+    }
+    
+    .category-pulse {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 8px;
+        height: 8px;
+        background: #28a745;
+        border-radius: 50%;
+        opacity: 0;
+        animation: pulse 2s infinite;
+    }
+    
+    .category-card:hover .category-pulse {
+        opacity: 1;
+    }
+    
+    @keyframes pulse {
+        0% {
+            transform: scale(0.8);
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+        }
+        70% {
+            transform: scale(1);
+            box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+        }
+        100% {
+            transform: scale(0.8);
+            box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+        }
+    }
+    
+    /* Staggered animation on page load */
+    .categories-grid a:nth-child(1) { animation-delay: 0.1s; }
+    .categories-grid a:nth-child(2) { animation-delay: 0.2s; }
+    .categories-grid a:nth-child(3) { animation-delay: 0.3s; }
+    .categories-grid a:nth-child(4) { animation-delay: 0.4s; }
+    .categories-grid a:nth-child(5) { animation-delay: 0.5s; }
+    .categories-grid a:nth-child(6) { animation-delay: 0.6s; }
+</style>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Kung gusto mo pa rin ng animation pero para sa icons, ito ay optional
+        // Pwede mong tanggalin ang buong JavaScript na ito kung hindi na kailangan
+        
+        // Remove the counter animation since we're using icons now
+        // Optional: Add hover effect for icons
+        const statIcons = document.querySelectorAll('.stat-number');
+        statIcons.forEach(icon => {
+            icon.addEventListener('mouseenter', function() {
+                this.style.transform = 'scale(1.2)';
+                this.style.transition = 'transform 0.3s ease';
+            });
+            
+            icon.addEventListener('mouseleave', function() {
+                this.style.transform = 'scale(1)';
+            });
+        });
+    });
+</script>
+{% endblock %}

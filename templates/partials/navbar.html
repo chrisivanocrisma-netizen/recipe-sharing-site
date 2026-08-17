@@ -1,0 +1,232 @@
+<nav class="navbar">
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="logo">
+        <span style="font-size: 32px;">🍳</span>
+        <div>
+            <span style="color: var(--primary-color);">Recipe</span>
+            <span style="color: var(--secondary-color);">Share</span>
+        </div>
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        ☰
+    </button>
+
+    <!-- Navigation Links -->
+    <div class="nav-links" id="mobileMenu">
+        <a href="{% url 'home' %}" class="nav-link {% if request.path == '/' %}active{% endif %}">
+            Home
+        </a>
+        <a href="{% url 'recipe_list' %}" class="nav-link {% if 'recipes' in request.path %}active{% endif %}">
+            Recipes
+        </a>
+        <a href="{% url 'categories' %}" class="nav-link {% if 'categories' in request.path %}active{% endif %}">
+            Categories
+        </a>
+        
+        {% if user.is_authenticated %}
+        <a href="{% url 'recipe_create' %}" class="nav-link">
+            Share Recipe
+        </a>
+        <a href="{% url 'my_recipes' %}" class="nav-link">
+            My Recipes
+        </a>
+        {% endif %}
+        
+        <a href="{% url 'about' %}" class="nav-link">
+            About
+        </a>
+        <a href="{% url 'contact' %}" class="nav-link">
+            Contact
+        </a>
+    </div>
+
+    <!-- User Menu -->
+    <div class="user-menu">
+        {% if user.is_authenticated %}
+        <div style="position: relative;">
+            <button onclick="toggleDropdown()" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                {% if user.profile.profile_picture %}
+                <img src="{{ user.profile.profile_picture.url }}" alt="{{ user.username }}" class="user-avatar">
+                {% else %}
+                <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--gradient-primary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                    {{ user.username|first|upper }}
+                </div>
+                {% endif %}
+                <span style="font-weight: 600;">{{ user.username }}</span>
+                <span style="font-size: 12px;">▼</span>
+            </button>
+            
+            <!-- Dropdown Menu -->
+            <div id="userDropdown" style="display: none; position: absolute; top: 50px; right: 0; background: white; box-shadow: var(--shadow-hover); border-radius: var(--radius); min-width: 200px; z-index: 1000;">
+                <div style="padding: 15px; border-bottom: 1px solid var(--border-color);">
+                    <div style="font-weight: bold; margin-bottom: 5px;">{{ user.username }}</div>
+                    <div style="font-size: 12px; color: var(--text-light);">{{ user.email }}</div>
+                </div>
+                <div style="padding: 10px 0;">
+                    <a href="{% url 'profile' %}" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: var(--text-dark); transition: var(--transition);">
+                        👤 Profile
+                    </a>
+                    <a href="{% url 'my_recipes' %}" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: var(--text-dark); transition: var(--transition);">
+                        📖 My Recipes
+                    </a>
+                    <a href="{% url 'favorites_list' %}" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: var(--text-dark); transition: var(--transition);">
+    ❤️ Favorites
+</a>
+                </div>
+                <div style="padding: 10px 0; border-top: 1px solid var(--border-color);">
+                    <a href="{% url 'logout' %}" style="display: flex; align-items: center; gap: 10px; padding: 10px 15px; color: var(--danger-color); transition: var(--transition);">
+                        🚪 Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div style="display: flex; gap: 10px;">
+            <a href="{% url 'login' %}" class="btn btn-outline btn-sm">Login</a>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-sm">Register</a>
+        </div>
+        {% endif %}
+    </div>
+</nav>
+
+<style>
+    /* Navbar specific styles */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 0;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 24px;
+        font-weight: 800;
+        text-decoration: none;
+    }
+
+    .mobile-menu-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 24px;
+        color: var(--primary-color);
+        cursor: pointer;
+        padding: 5px;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .nav-link {
+        padding: 8px 16px;
+        border-radius: var(--radius);
+        font-weight: 600;
+        color: var(--text-dark);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+
+    .nav-link:hover {
+        background: var(--primary-light);
+        color: var(--primary-color);
+    }
+
+    .nav-link.active {
+        background: var(--gradient-primary);
+        color: white;
+    }
+
+    .user-menu {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 2px solid var(--primary-light);
+    }
+
+    @media (max-width: 768px) {
+        .mobile-menu-btn {
+            display: block;
+        }
+        
+        .nav-links {
+            position: fixed;
+            top: 80px;
+            left: -100%;
+            width: 100%;
+            height: calc(100vh - 80px);
+            background: white;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 40px;
+            transition: var(--transition);
+            z-index: 999;
+            box-shadow: var(--shadow);
+        }
+        
+        .nav-links.active {
+            left: 0;
+        }
+        
+        .user-menu {
+            position: absolute;
+            right: 60px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .logo div {
+            display: none;
+        }
+        
+        .logo {
+            font-size: 20px;
+        }
+    }
+</style>
+
+<script>
+    // Mobile menu toggle
+    function toggleMobileMenu() {
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenu.classList.toggle('active');
+    }
+    
+    // User dropdown toggle
+    function toggleDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('userDropdown');
+        const userMenu = document.querySelector('.user-menu');
+        
+        if (dropdown && !userMenu.contains(event.target)) {
+            dropdown.style.display = 'none';
+        }
+        
+        // Close mobile menu when clicking outside
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileBtn = document.querySelector('.mobile-menu-btn');
+        
+        if (mobileMenu && mobileBtn && !mobileMenu.contains(event.target) && !mobileBtn.contains(event.target)) {
+            mobileMenu.classList.remove('active');
+        }
+    });
+</script>

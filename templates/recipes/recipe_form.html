@@ -1,0 +1,338 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 40px auto;">
+    <div style="background: linear-gradient(to bottom, #ffffff, #f8f9fa); padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 1px solid #e3e8f0;">
+        <div style="text-align: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #f1f3f9;">
+            <h1 style="margin-bottom: 8px; color: #2c3e50; font-size: 28px;">
+                📝 {{ title }}
+            </h1>
+            <p style="color: #6c757d; font-size: 15px;">
+                {% if title == 'Create Recipe' %}Share your delicious recipe{% else %}Update your recipe{% endif %}
+            </p>
+        </div>
+        
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Recipe Basic Info Box -->
+            <div style="margin-bottom: 25px; padding: 20px; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e9ecef;">
+                <h2 style="margin-bottom: 15px; color: #2c3e50; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                    <span style="background: #3498db; color: white; padding: 6px; border-radius: 6px; font-size: 16px;">🍽️</span>
+                    Recipe Information
+                </h2>
+                
+                <div style="display: grid; gap: 15px;">
+                    <!-- Title -->
+                    <div>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                            <span style="color: #3498db; margin-right: 6px;">✏️</span>
+                            Recipe Title
+                        </label>
+                        <input type="text" name="title" value="{{ form.title|default:'' }}" 
+                               style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;" 
+                               required
+                               placeholder="">
+                    </div>
+                    
+                    <!-- Description -->
+                    <div>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                            <span style="color: #3498db; margin-right: 6px;">📄</span>
+                            Description
+                        </label>
+                        <textarea name="description" 
+                                  style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; min-height: 80px; font-size: 14px; background: #f8f9fa; resize: vertical;" 
+                                  required
+                                  placeholder="">{{ form.description|default:'' }}</textarea>
+                    </div>
+                    
+                    <!-- Grid for time, servings, difficulty, category -->
+                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                        <!-- Prep Time -->
+                        <div>
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                                <span style="color: #e74c3c; margin-right: 6px;">⏱️</span>
+                                Prep Time (min)
+                            </label>
+                            <input type="number" name="prep_time" value="{{ form.prep_time|default:'15' }}" 
+                                   style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;" 
+                                   required min="1">
+                        </div>
+                        
+                        <!-- Cook Time -->
+                        <div>
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                                <span style="color: #e74c3c; margin-right: 6px;">🔥</span>
+                                Cook Time (min)
+                            </label>
+                            <input type="number" name="cook_time" value="{{ form.cook_time|default:'30' }}" 
+                                   style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;" 
+                                   required min="1">
+                        </div>
+                        
+                        <!-- Servings -->
+                        <div>
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                                <span style="color: #2ecc71; margin-right: 6px;">👥</span>
+                                Servings
+                            </label>
+                            <input type="number" name="servings" value="{{ form.servings|default:'4' }}" 
+                                   style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;" 
+                                   required min="1">
+                        </div>
+                        
+                        <!-- Difficulty -->
+                        <div>
+                            <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                                <span style="color: #f39c12; margin-right: 6px;">📊</span>
+                                Difficulty
+                            </label>
+                            <select name="difficulty" 
+                                    style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;">
+                                <option value="easy" {% if form.difficulty == 'easy' %}selected{% endif %}>Easy</option>
+                                <option value="medium" {% if form.difficulty == 'medium' %}selected{% endif %}>Medium</option>
+                                <option value="hard" {% if form.difficulty == 'hard' %}selected{% endif %}>Hard</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- Category -->
+                    <div>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                            <span style="color: #9b59b6; margin-right: 6px;">📂</span>
+                            Category
+                        </label>
+                        <select name="category" 
+                                style="width: 100%; padding: 10px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 14px; background: #f8f9fa;">
+                            <option value="breakfast" {% if form.category == 'breakfast' %}selected{% endif %}>Breakfast</option>
+                            <option value="lunch" {% if form.category == 'lunch' %}selected{% endif %}>Lunch</option>
+                            <option value="dinner" {% if form.category == 'dinner' %}selected{% endif %}>Dinner</option>
+                            <option value="dessert" {% if form.category == 'dessert' %}selected{% endif %}>Dessert</option>
+                            <option value="snack" {% if form.category == 'snack' %}selected{% endif %}>Snack</option>
+                            <option value="drink" {% if form.category == 'drink' %}selected{% endif %}>Drink</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Photo Upload -->
+                    <div>
+                        <label style="display: block; margin-bottom: 6px; font-weight: 600; color: #2c3e50; font-size: 14px;">
+                            <span style="color: #1abc9c; margin-right: 6px;">📸</span>
+                            Recipe Photo
+                        </label>
+                        
+                        {% if recipe and recipe.photo %}
+                        <div style="margin-bottom: 10px; padding: 10px; background: #e8f4fc; border-radius: 6px; border: 1px dashed #3498db;">
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <img src="{{ recipe.photo.url }}" alt="Current photo" 
+                                     style="width: 60px; height: 60px; border-radius: 6px; object-fit: cover; border: 2px solid white;">
+                                <div>
+                                    <div style="font-weight: 600; color: #2c3e50; font-size: 13px;">Current Photo</div>
+                                    <div style="font-size: 12px; color: #6c757d;">Upload new to replace</div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                        
+                        <input type="file" name="photo" accept="image/*" 
+                               style="width: 100%; padding: 10px; border: 1px dashed #bdc3c7; border-radius: 6px; font-size: 14px; background: #f8f9fa;">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Ingredients Box -->
+            <div style="margin-bottom: 25px; padding: 20px; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e9ecef; border-left: 4px solid #3498db;">
+                <h2 style="margin-bottom: 15px; color: #2c3e50; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                    <span style="background: #3498db; color: white; padding: 6px; border-radius: 6px; font-size: 16px;">🥕</span>
+                    Ingredients
+                </h2>
+                
+                <div id="ingredients" style="margin-bottom: 12px;">
+                    {% if recipe %}
+                        {% for ingredient in recipe.ingredients.all %}
+                        <div class="ingredient-row" style="display: grid; grid-template-columns: 70px 80px 1fr 80px; gap: 8px; margin-bottom: 8px; align-items: center;">
+                            <input type="text" name="quantity[]" value="{{ ingredient.quantity }}" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Qty">
+                            <input type="text" name="unit[]" value="{{ ingredient.unit }}" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Unit">
+                            <input type="text" name="name[]" value="{{ ingredient.name }}" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Ingredient">
+                            <button type="button" onclick="removeIngredient(this)" 
+                                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600;">
+                                ✕
+                            </button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="ingredient-row" style="display: grid; grid-template-columns: 70px 80px 1fr 80px; gap: 8px; margin-bottom: 8px; align-items: center;">
+                            <input type="text" name="quantity[]" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Qty">
+                            <input type="text" name="unit[]" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Unit">
+                            <input type="text" name="name[]" 
+                                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                                   placeholder="Ingredient">
+                            <button type="button" onclick="removeIngredient(this)" 
+                                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600;">
+                                ✕
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <button type="button" onclick="addIngredient()" 
+                        style="padding: 10px 15px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                    + Add Ingredient
+                </button>
+            </div>
+            
+            <!-- Instructions Box -->
+            <div style="margin-bottom: 25px; padding: 20px; background: #ffffff; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.04); border: 1px solid #e9ecef; border-left: 4px solid #2ecc71;">
+                <h2 style="margin-bottom: 15px; color: #2c3e50; font-size: 18px; display: flex; align-items: center; gap: 8px;">
+                    <span style="background: #2ecc71; color: white; padding: 6px; border-radius: 6px; font-size: 16px;">📝</span>
+                    Instructions
+                </h2>
+                
+                <div id="steps" style="margin-bottom: 12px;">
+                    {% if recipe %}
+                        {% for step in recipe.steps.all %}
+                        <div class="step-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;">
+                            <div style="position: relative; flex: 1;">
+                                <div class="step-number" style="position: absolute; left: 12px; top: 12px; background: #2ecc71; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">
+                                    {{ forloop.counter }}
+                                </div>
+                                <textarea name="steps[]" 
+                                          style="width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #d1d8e0; border-radius: 6px; min-height: 70px; font-size: 13px; background: #f8f9fa; resize: vertical;" 
+                                          placeholder="">{{ step.instruction }}</textarea>
+                            </div>
+                            <button type="button" onclick="removeStep(this)" 
+                                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 12px;">
+                                ✕
+                            </button>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="step-row" style="display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;">
+                            <div style="position: relative; flex: 1;">
+                                <div class="step-number" style="position: absolute; left: 12px; top: 12px; background: #2ecc71; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">
+                                    1
+                                </div>
+                                <textarea name="steps[]" 
+                                          style="width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #d1d8e0; border-radius: 6px; min-height: 70px; font-size: 13px; background: #f8f9fa; resize: vertical;" 
+                                          placeholder="Step instruction..."></textarea>
+                            </div>
+                            <button type="button" onclick="removeStep(this)" 
+                                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 12px;">
+                                ✕
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <button type="button" onclick="addStep()" 
+                        style="padding: 10px 15px; background: #2ecc71; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                    + Add Step
+                </button>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div style="display: flex; gap: 12px; justify-content: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #f1f3f9;">
+                <a href="{% if recipe %}{% url 'recipe_detail' recipe.pk %}{% else %}{% url 'recipe_list' %}{% endif %}" 
+                   style="padding: 10px 20px; background: #f8f9fa; color: #495057; border-radius: 6px; text-decoration: none; border: 1px solid #dee2e6; font-weight: 600; font-size: 14px;">
+                    Cancel
+                </a>
+                <button type="submit" 
+                        style="padding: 10px 30px; background: #3498db; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: 600;">
+                    {{ title }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function addIngredient() {
+        const container = document.getElementById('ingredients');
+        const newRow = document.createElement('div');
+        newRow.className = 'ingredient-row';
+        newRow.style.cssText = 'display: grid; grid-template-columns: 70px 80px 1fr 80px; gap: 8px; margin-bottom: 8px; align-items: center;';
+        
+        newRow.innerHTML = `
+            <input type="text" name="quantity[]" 
+                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                   placeholder="Qty">
+            <input type="text" name="unit[]" 
+                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                   placeholder="Unit">
+            <input type="text" name="name[]" 
+                   style="padding: 8px 10px; border: 1px solid #d1d8e0; border-radius: 5px; font-size: 13px; background: #f8f9fa;" 
+                   placeholder="Ingredient">
+            <button type="button" onclick="removeIngredient(this)" 
+                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600;">
+                ✕
+            </button>
+        `;
+        
+        container.appendChild(newRow);
+    }
+    
+    function removeIngredient(button) {
+        const rows = document.querySelectorAll('#ingredients .ingredient-row');
+        if (rows.length > 1) {
+            button.closest('.ingredient-row').remove();
+        }
+    }
+    
+    function addStep() {
+        const container = document.getElementById('steps');
+        const existingSteps = container.querySelectorAll('.step-row');
+        const newStepNumber = existingSteps.length + 1;
+        
+        const newRow = document.createElement('div');
+        newRow.className = 'step-row';
+        newRow.style.cssText = 'display: flex; gap: 10px; margin-bottom: 10px; align-items: flex-start;';
+        
+        newRow.innerHTML = `
+            <div style="position: relative; flex: 1;">
+                <div class="step-number" style="position: absolute; left: 12px; top: 12px; background: #2ecc71; color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px;">
+                    ${newStepNumber}
+                </div>
+                <textarea name="steps[]" 
+                          style="width: 100%; padding: 12px 12px 12px 40px; border: 1px solid #d1d8e0; border-radius: 6px; min-height: 70px; font-size: 13px; background: #f8f9fa; resize: vertical;" 
+                          placeholder="Step instruction..."></textarea>
+            </div>
+            <button type="button" onclick="removeStep(this)" 
+                    style="background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 8px 10px; cursor: pointer; font-size: 12px; font-weight: 600; margin-top: 12px;">
+                ✕
+            </button>
+        `;
+        
+        container.appendChild(newRow);
+    }
+    
+    function removeStep(button) {
+        const rows = document.querySelectorAll('#steps .step-row');
+        if (rows.length > 1) {
+            button.closest('.step-row').remove();
+            updateStepNumbers();
+        }
+    }
+    
+    function updateStepNumbers() {
+        const rows = document.querySelectorAll('#steps .step-row');
+        rows.forEach((row, index) => {
+            const stepNumberDiv = row.querySelector('.step-number');
+            if (stepNumberDiv) {
+                stepNumberDiv.textContent = index + 1;
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,263 @@
+<footer>
+    <div class="footer-content">
+        <!-- Left: Logo and basic info -->
+        <div class="footer-section">
+            <div class="logo">
+                <span style="font-size: 22px;">🍳</span>
+                <div>
+                    <span style="color: var(--primary-color); font-size: 18px;">Recipe</span>
+                    <span style="color: var(--secondary-color); font-size: 18px;">Share</span>
+                </div>
+            </div>
+            <div style="color: rgba(255,255,255,0.8); font-size: 13px; margin-top: 5px; line-height: 1.3;">
+                Your culinary community for sharing and discovering recipes.
+            </div>
+        </div>
+
+        <!-- Center: Navigation and legal -->
+        <div class="footer-section">
+            <div class="footer-links">
+                <a href="{% url 'home' %}">Home</a>
+                <a href="{% url 'recipe_list' %}">Recipes</a>
+                <a href="{% url 'categories' %}">Categories</a>
+                <a href="{% url 'about' %}">About</a>
+                <a href="{% url 'contact' %}">Contact</a>
+            </div>
+            
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookie Policy</a>
+            </div>
+            
+            <div style="color: rgba(255,255,255,0.6); font-size: 11px; margin-top: 8px; text-align: center;">
+                © 2026 RecipeShare. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Right: Contact and social -->
+        <div class="footer-section right-align">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <span class="contact-icon">📧</span>
+                    <span class="contact-text">recipes@foodshare.ph</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <span class="contact-text">(02) 8123-4567</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">ⓕ</span>
+                    <span class="contact-text">@FoodSharePH</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">🅾</span>
+                    <span class="contact-text">@FoodShareRecipes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    /* COMPACT FOOTER */
+    footer {
+        background: var(--text-dark);
+        color: white;
+        padding: 20px 0;
+        margin-top: 30px;
+        border-top: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .footer-section {
+        flex: 1;
+        min-width: 0;
+    }
+
+    /* Right align */
+    .right-align {
+        text-align: right;
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .footer-links {
+        display: flex;
+        gap: 22px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .footer-links a {
+        color: rgba(255,255,255,0.9);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+    }
+
+    .footer-links a:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+    }
+
+    .legal-links {
+        display: flex;
+        gap: 18px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 10px;
+    }
+
+    .legal-links a {
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-size: 12px;
+        transition: color 0.2s ease;
+    }
+
+    .legal-links a:hover {
+        color: var(--primary-color);
+        text-decoration: underline;
+    }
+
+    /* CONTACT SECTION - PERFECTLY ALIGNED AND TIGHTER */
+    .contact-info {
+        display: inline-block;
+        font-size: 13px;
+    }
+
+    .contact-item {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 0px; /* Mas dikit - from 6px to 4px */
+        text-align: right;
+        white-space: nowrap;
+        min-height: 5px; /* Para pantay ang height */
+    }
+
+    .contact-icon {
+        margin-right: 8px;
+        width: 20px; /* Fixed width para pantay */
+        text-align: center;
+        flex-shrink: 0;
+        font-size: 14px;
+        display: inline-block;
+    }
+
+    .contact-text {
+        text-align: right;
+        color: rgba(255,255,255,0.85);
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 1.2;
+    }
+
+    /* PERFECT ALIGNMENT - lahat ng text naka-align sa email */
+    .contact-info {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Right align lahat */
+    }
+
+    .contact-item {
+        width: auto;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Hover effects */
+    .contact-item:hover .contact-text {
+        color: var(--primary-color);
+    }
+
+    .contact-item:nth-child(3):hover .contact-text {
+        color: #1877F2; /* Facebook blue */
+    }
+
+    .contact-item:nth-child(4):hover .contact-text {
+        color: #E4405F; /* Instagram pink */
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+        .footer-content {
+            flex-direction: column;
+            gap: 25px;
+            text-align: center;
+            align-items: center;
+        }
+        
+        .footer-section {
+            width: 100%;
+        }
+        
+        .right-align {
+            text-align: center;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-item {
+            justify-content: center;
+            text-align: center;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .footer-links {
+            gap: 18px;
+        }
+        
+        .legal-links {
+            gap: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        footer {
+            padding: 18px 0;
+        }
+        
+        .footer-links {
+            gap: 12px;
+        }
+        
+        .contact-info {
+            font-size: 12px;
+        }
+        
+        .contact-icon {
+            font-size: 13px;
+            margin-right: 6px;
+        }
+        
+        .contact-item {
+            margin-bottom: 3px; /* Mas dikit sa mobile */
+        }
+    }
+</style>

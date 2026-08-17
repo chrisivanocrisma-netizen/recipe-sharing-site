@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div style="max-width: 400px; margin: 80px auto; padding: 40px; background: white; border-radius: var(--radius); box-shadow: var(--shadow);">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h1 style="font-size: 28px; color: var(--text-dark); margin-bottom: 10px;">Create Account 🎉</h1>
+        <p style="color: var(--text-light);">Join our recipe community</p>
+    </div>
+    
+    {% if form.errors %}
+    <div style="background: #FFEBEE; color: var(--danger-color); padding: 12px; border-radius: var(--radius); margin-bottom: 20px; border-left: 4px solid var(--danger-color);">
+        {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+                {{ error }}<br>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Username</label>
+            <input type="text" name="username" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" required>
+            {% if form.username.errors %}
+            <div style="color: var(--danger-color); font-size: 14px; margin-top: 5px;">{{ form.username.errors.0 }}</div>
+            {% endif %}
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Email</label>
+            <input type="email" name="email" style="width: 100%; padding: 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" required>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Password</label>
+            <div style="position: relative;">
+                <input type="password" name="password1" id="pass1" 
+                       style="width: 100%; padding: 12px 40px 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" 
+                       required>
+                <span onclick="showPass1()" 
+                      style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+                      id="eye1">
+                    👁️
+                </span>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 25px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: var(--text-dark);">Confirm Password</label>
+            <div style="position: relative;">
+                <input type="password" name="password2" id="pass2" 
+                       style="width: 100%; padding: 12px 40px 12px 15px; border: 2px solid var(--border-color); border-radius: var(--radius); font-size: 16px;" 
+                       required>
+                <span onclick="showPass2()" 
+                      style="position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer;"
+                      id="eye2">
+                    👁️
+                </span>
+            </div>
+        </div>
+        
+        <button type="submit" style="width: 100%; padding: 14px; background: var(--gradient-primary); color: white; border: none; border-radius: var(--radius); font-size: 16px; font-weight: 600; cursor: pointer;">
+            Create Account
+        </button>
+    </form>
+    
+    <div style="text-align: center; color: var(--text-light); margin-top: 25px;">
+        Already have an account? 
+        <a href="{% url 'login' %}" style="color: var(--primary-color); font-weight: 600;">Login here</a>
+    </div>
+</div>
+
+<script>
+function showPass1() {
+    var x = document.getElementById("pass1");
+    var eye = document.getElementById("eye1");
+    
+    if (x.type === "password") {
+        x.type = "text";
+        eye.innerHTML = "🙈";
+    } else {
+        x.type = "password";
+        eye.innerHTML = "👁️";
+    }
+}
+
+function showPass2() {
+    var x = document.getElementById("pass2");
+    var eye = document.getElementById("eye2");
+    
+    if (x.type === "password") {
+        x.type = "text";
+        eye.innerHTML = "🙈";
+    } else {
+        x.type = "password";
+        eye.innerHTML = "👁️";
+    }
+}
+</script>
+{% endblock %}

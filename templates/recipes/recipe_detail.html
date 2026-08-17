@@ -1,0 +1,598 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ recipe.title }} - Recipe Sharing{% endblock %}
+
+{% block content %}
+<div class="recipe-page">
+    
+    <!-- Recipe Header -->
+    <div class="recipe-top">
+        <!-- Photo - Fixed Size -->
+        <div class="recipe-photo-box">
+            {% if recipe.photo %}
+            <img src="{{ recipe.photo.url }}" alt="{{ recipe.title }}" class="recipe-img">
+            {% else %}
+            <div class="no-photo">🍳 No Photo</div>
+            {% endif %}
+        </div>
+        
+        <!-- Basic Info -->
+        <div class="recipe-info">
+            <h1>{{ recipe.title }}</h1>
+            <p class="description">{{ recipe.description }}</p>
+            
+            <!-- Quick Stats -->
+            <div class="quick-stats">
+                <div class="stat">
+                    <span class="icon">⏱️</span>
+                    <span class="text">{{ recipe.prep_time }} min prep</span>
+                </div>
+                <div class="stat">
+                    <span class="icon">🔥</span>
+                    <span class="text">{{ recipe.cook_time }} min cook</span>
+                </div>
+                <div class="stat">
+                    <span class="icon">👤</span>
+                    <span class="text">{{ recipe.servings }} servings</span>
+                </div>
+                <div class="stat">
+                    <span class="icon">📊</span>
+                    <span class="text">{{ recipe.difficulty|title }}</span>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="recipe-actions">
+                <div class="author">
+                    By <strong>{{ recipe.author.username }}</strong>
+                    <span class="date">{{ recipe.created_at|date:"M d, Y" }}</span>
+                </div>
+                
+                <div class="buttons">
+                    {% if user.is_authenticated and user != recipe.author %}
+                    <form method="POST" action="{% url 'like_recipe' recipe.pk %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn-like {% if user_like and user_like.is_like %}active{% endif %}">
+                            👍 {{ recipe.likes_count }}
+                        </button>
+                    </form>
+                    {% endif %}
+                    
+                    {% if user == recipe.author or user.is_superuser %}
+                    <a href="{% url 'recipe_update' recipe.pk %}" class="btn-edit">Edit</a>
+                    <a href="{% url 'recipe_delete' recipe.pk %}" class="btn-delete">Delete</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Ingredients & Steps -->
+    <div class="recipe-main">
+        <!-- Ingredients Box -->
+        <div class="ingredients-box">
+            <h2>🥘 Ingredients</h2>
+            <div class="scroll-box">
+                {% if ingredients %}
+                <ul class="ingredients-list">
+                    {% for ingredient in ingredients %}
+                    <li>
+                        <span class="bullet">•</span>
+                        {% if ingredient.quantity %}<strong>{{ ingredient.quantity }}</strong>{% endif %}
+                        {% if ingredient.unit %}{{ ingredient.unit }}{% endif %}
+                        {{ ingredient.name }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="empty">No ingredients listed</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Steps Box -->
+        <div class="steps-box">
+            <h2>📝 Instructions</h2>
+            <div class="scroll-box">
+                {% if steps %}
+                <div class="steps-list">
+                    {% for step in steps %}
+                    <div class="step">
+                        <div class="step-num">{{ step.step_number }}</div>
+                        <div class="step-text">{{ step.instruction }}</div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="empty">No instructions provided</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+<div class="ratings-section">
+    <h2>⭐ {{ average_rating|floatformat:1 }} out of 5</h2>
+        
+        <!-- Rating Form -->
+        {% if user.is_authenticated and user != recipe.author %}
+        <div class="rating-form">
+            <h3>Add Your Review</h3>
+            <form method="POST" action="{% url 'rate_recipe' recipe.pk %}">
+                {% csrf_token %}
+                <div class="form-row">
+                    <select name="rating" class="rating-select">
+                        <option value="5">★★★★★ Excellent</option>
+                        <option value="4">★★★★☆ Good</option>
+                        <option value="3">★★★☆☆ Average</option>
+                        <option value="2">★★☆☆☆ Fair</option>
+                        <option value="1">★☆☆☆☆ Poor</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <textarea name="comment" placeholder="Your review (optional)" class="review-input"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Submit Review</button>
+            </form>
+        </div>
+        {% elif not user.is_authenticated %}
+        <p class="login-prompt">
+            <a href="{% url 'login' %}">Log in to rate this recipe</a>
+        </p>
+        {% endif %}
+        
+        <!-- Reviews -->
+        {% if ratings %}
+        <div class="reviews">
+            {% for rating in ratings|slice:":3" %}
+            <div class="review">
+                <div class="review-top">
+                    <strong>{{ rating.user.username }}</strong>
+                    <span class="stars">
+                        {% for i in "12345" %}
+                            {% if forloop.counter <= rating.rating %}★{% else %}☆{% endif %}
+                        {% endfor %}
+                    </span>
+                    <span class="date">{{ rating.created_at|date:"M d" }}</span>
+                </div>
+                {% if rating.comment %}
+                <p class="comment">{{ rating.comment }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </div>
+    
+    <!-- Print Button -->
+    <div class="footer">
+        <a href="{% url 'recipe_print' recipe.pk %}" target="_blank" class="btn-print">🖨️ Print Recipe</a>
+    </div>
+</div>
+
+<style>
+    /* Main Container - Nabawasan ang padding sa kaliwa at kanan */
+    .recipe-page {
+        max-width: 10000px;
+        margin: 20px auto;
+        padding: 0 5px; /* BINAGO: Mula 15px papuntang 5px */
+    }
+    
+    /* Top Section */
+    .recipe-top {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    
+    /* Photo Box - Fixed Size */
+    .recipe-photo-box {
+        width: 300px;
+        flex-shrink: 0;
+    }
+    
+    .recipe-img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .no-photo {
+        width: 100%;
+        height: 300px;
+        background: #f5f5f5;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        color: #666;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    /* Recipe Info */
+    .recipe-info {
+        flex: 1;
+    }
+    
+    .recipe-info h1 {
+        margin: 0 0 15px 0;
+        font-size: 28px;
+        color: #333;
+    }
+    
+    .description {
+        color: #666;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+    
+    /* Quick Stats */
+    .quick-stats {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    
+    .stat {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f8f9fa;
+        padding: 12px 15px;
+        border-radius: 8px;
+        border: 1px solid #eee;
+    }
+    
+    .stat .icon {
+        font-size: 20px;
+    }
+    
+    .stat .text {
+        font-size: 14px;
+        color: #333;
+    }
+    
+    /* Actions */
+    .recipe-actions {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .author {
+        margin-bottom: 15px;
+        font-size: 15px;
+        color: #555;
+    }
+    
+    .author .date {
+        color: #888;
+        margin-left: 10px;
+    }
+    
+    .buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .btn-like {
+        padding: 8px 16px;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    .btn-like.active {
+        background: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+    .btn-edit {
+        padding: 8px 16px;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+    }
+    
+    .btn-delete {
+        padding: 8px 16px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    /* Ingredients & Steps Boxes */
+    .recipe-main {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    
+    .ingredients-box,
+    .steps-box {
+        background: white;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: 400px; /* Fixed height for scroll */
+    }
+    
+    .ingredients-box h2,
+    .steps-box h2 {
+        margin: 0;
+        padding: 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        font-size: 20px;
+    }
+    
+    /* Scrollable Content */
+    .scroll-box {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+    }
+    
+    /* Ingredients List */
+    .ingredients-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    .ingredients-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid #f0f0f0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .ingredients-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .ingredients-list .bullet {
+        color: #007bff;
+        font-weight: bold;
+    }
+    
+    /* Steps List */
+    .steps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .step {
+        display: flex;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 8px;
+        border-left: 3px solid #28a745;
+    }
+    
+    .step-num {
+        width: 30px;
+        height: 30px;
+        background: #28a745;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 14px;
+        flex-shrink: 0;
+    }
+    
+    .step-text {
+        flex: 1;
+        color: #333;
+        line-height: 1.5;
+    }
+    
+    /* Empty State */
+    .empty {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+        margin: 40px 0;
+    }
+    
+    /* Ratings Section */
+    .ratings-section {
+        background: white;
+        padding: 25px;
+        border-radius: 10px;
+        border: 1px solid #eee;
+        margin-bottom: 30px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    
+    .ratings-section h2 {
+        margin: 0 0 20px 0;
+        font-size: 22px;
+    }
+    
+    /* Rating Form */
+    .rating-form {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 25px;
+    }
+    
+    .rating-form h3 {
+        margin: 0 0 15px 0;
+        font-size: 18px;
+    }
+    
+    .form-row {
+        margin-bottom: 15px;
+    }
+    
+    .rating-select,
+    .review-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    .review-input {
+        min-height: 80px;
+        resize: vertical;
+    }
+    
+    .btn-submit {
+        padding: 10px 20px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 14px;
+    }
+    
+    /* Reviews */
+    .reviews {
+        margin-top: 25px;
+    }
+    
+    .review {
+        padding: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .review:last-child {
+        border-bottom: none;
+    }
+    
+    .review-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+    
+    .review-top .stars {
+        color: #ffc107;
+        font-size: 16px;
+    }
+    
+    .review-top .date {
+        color: #888;
+        font-size: 13px;
+        margin-left: auto;
+    }
+    
+    .comment {
+        color: #555;
+        line-height: 1.5;
+        margin: 0;
+        font-size: 14px;
+    }
+    
+    .login-prompt {
+        text-align: center;
+        padding: 20px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .login-prompt a {
+        color: #007bff;
+        text-decoration: none;
+        font-weight: 500;
+    }
+    
+    /* Footer */
+    .footer {
+        text-align: center;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    
+    .btn-print {
+        display: inline-block;
+        padding: 12px 25px;
+        background: #f0f0f0;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+        .recipe-top {
+            flex-direction: column;
+        }
+        
+        .recipe-photo-box {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .recipe-img,
+        .no-photo {
+            height: 250px;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .recipe-main {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .ingredients-box,
+        .steps-box {
+            height: 350px;
+        }
+        
+        .quick-stats {
+            grid-template-columns: 1fr;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .buttons {
+            flex-wrap: wrap;
+        }
+        
+        .ingredients-box,
+        .steps-box {
+            height: 300px;
+        }
+        
+        .step {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+</style>
+{% endblock %}
