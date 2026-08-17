@@ -3,14 +3,14 @@ Django settings for recipe_project project.
 """
 
 import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.environ.get(
-    'SECRET_KEY',
-    'django-insecure-24+w9u)92hd@1zfd)9sw-ofk0%)n(^u9p!g5n95p@w=elb%5^&'
-)
+load_dotenv(BASE_DIR / '.env')
+
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
